@@ -1,0 +1,21 @@
+require: rubocop-performance
+
+AllCops:
+  Exclude:
+    - '**/*.html.erb'
+    - 'db/**/*'
+    - 'lib/tasks/**/*'
+    - 'spec/**/*'
+    - 'vendor/**/*'
+  NewCops: enable
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Lint/MissingSuper:
+  Exclude:
+    - 'app/components/**/*'
+
