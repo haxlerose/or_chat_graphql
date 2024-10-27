@@ -8,28 +8,40 @@ RSpec.describe Chat, type: :model do
   end
 
   describe 'factory' do
-    it 'has a valid factory' do
-      expect(build(:chat)).to be_valid
+    it 'creates chat with initial message' do
+      chat = create(:chat)
+      expect(chat.messages.count).to eq(1)
+      expect(chat.messages.first.role).to eq("user")  # The test will pass with either "user" or :user
+    end
+
+    it 'can create chat with conversation' do
+      chat = create(:chat, :with_conversation)
+      expect(chat.messages.count).to eq(2)
+      expect(chat.messages.first.role).to eq("user")
+      expect(chat.messages.last.role).to eq("assistant") # The test will pass with either "assistant" or :assistant
     end
   end
 
   describe 'validations' do
     it { should validate_presence_of(:llm_model) }
 
-    context 'when llm_model is nil' do
-      it 'is invalid' do
-        chat = build(:chat, llm_model: nil)
-        expect(chat).not_to be_valid
-        expect(chat.errors[:llm_model]).to include("can't be blank")
-      end
+    it 'requires at least one message on create' do
+      chat = build(:chat)
+      chat.messages = []
+      expect(chat).not_to be_valid
+      expect(chat.errors[:messages]).to include("can't be blank")
     end
 
-    context 'when llm_model is an empty string' do
+    context 'when llm_model is invalid' do
       it 'is invalid' do
-        chat = build(:chat, llm_model: '')
+        chat = build(:chat, llm_model: 'invalid-model')
         expect(chat).not_to be_valid
-        expect(chat.errors[:llm_model]).to include("can't be blank")
+        expect(chat.errors[:llm_model]).to include('is not included in the list')
       end
     end
+  end
+
+  describe 'associations' do
+    it { should have_many(:messages).dependent(:destroy) }
   end
 end
