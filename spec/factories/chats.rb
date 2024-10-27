@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :chat do
     sequence(:name) { |n| "Chat #{n}" }
-    llm_model { "gpt-4" }
+    llm_model { 'anthropic/claude-2' }  # Just set a static value
   end
 end

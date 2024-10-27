@@ -3,6 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Chat, type: :model do
+  before do
+    allow(LlmModel).to receive(:all).and_return([{ 'id' => 'anthropic/claude-2' }])
+  end
+
   describe 'factory' do
     it 'has a valid factory' do
       expect(build(:chat)).to be_valid

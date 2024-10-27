@@ -3,6 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Types::QueryType do
+  before(:each) do
+    allow(LlmModel).to receive(:all).and_return([{ 'id' => 'anthropic/claude-2' }])
+  end
+
   let(:context) { {} }
   let(:variables) { {} }
 

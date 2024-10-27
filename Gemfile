@@ -30,6 +30,7 @@ gem 'bootsnap', require: false
 # gem "rack-cors"
 
 gem 'graphql'
+gem 'open_router'
 gem 'ostruct'
 
 group :development, :test do
