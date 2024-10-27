@@ -43,5 +43,9 @@ class OrChatGraphqlSchema < GraphQL::Schema
   def self.object_from_id(global_id, _query_ctx)
     # For example, use Rails' GlobalID library (https://github.com/rails/globalid):
     GlobalID.find(global_id)
+  rescue ActiveRecord::RecordNotFound
+    nil  # Return nil for non-existent records
+  rescue URI::InvalidURIError, ArgumentError
+    nil  # Return nil for invalid GlobalID format
   end
 end
