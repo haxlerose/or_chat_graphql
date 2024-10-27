@@ -103,4 +103,45 @@ RSpec.describe Types::QueryType do
       expect(result["data"]["node"]).to be_nil
     end
   end
+
+  describe "llm_pricing query" do
+    let(:query) do
+      <<~GQL
+        query {
+          llmPricing {
+            name
+            cost
+          }
+        }
+      GQL
+    end
+
+    let(:mock_pricing) do
+      [
+        {
+          name: 'anthropic/claude-2',
+          cost: 320.0
+        }
+      ]
+    end
+
+    before do
+      allow(LlmModel).to receive(:pricing_per_million_tokens).and_return(mock_pricing)
+    end
+
+    it "returns pricing for all models" do
+      result = execute_query(query: query)
+
+      expect(result["data"]["llmPricing"]).to eq(
+        mock_pricing.map { |p| { "name" => p[:name], "cost" => p[:cost] } }
+      )
+    end
+
+    it "returns empty array when no models available" do
+      allow(LlmModel).to receive(:pricing_per_million_tokens).and_return([])
+      result = execute_query(query: query)
+
+      expect(result["data"]["llmPricing"]).to eq([])
+    end
+  end
 end

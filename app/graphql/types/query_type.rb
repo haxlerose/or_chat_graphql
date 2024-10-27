@@ -28,5 +28,11 @@ module Types
     def chats
       Chat.all
     end
+
+    field :llm_pricing, [Types::LlmPricingType], null: false,
+                                                 description: 'Get pricing for all available LLM models'
+    def llm_pricing
+      LlmModel.pricing_per_million_tokens
+    end
   end
 end
