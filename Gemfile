@@ -38,4 +38,13 @@ group :development, :test do
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem 'brakeman', require: false
+
+  gem 'erb_lint', require: false
+  gem 'factory_bot_rails'
+  gem 'pry', '~> 0.14.2'
+  gem 'rspec-rails', '~> 7.0.1'
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'ruby-lsp', require: false
+  gem 'shoulda-matchers', '~> 6.0'
 end
