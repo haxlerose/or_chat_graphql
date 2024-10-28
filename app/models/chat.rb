@@ -5,5 +5,8 @@ class Chat < ApplicationRecord
 
   validates :llm_model, presence: true
   validates :llm_model, inclusion: { in: LlmModel.all.map { |model| model['id'] } }
-  validates :messages, presence: true, on: :create
+
+  def history
+    messages.order(:position).map { |message| { role: message.role, content: message.content } }
+  end
 end
