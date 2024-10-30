@@ -26,7 +26,16 @@ module Types
     # They will be entry points for queries on your schema.
     field :chats, [Types::ChatType], null: false, description: 'Fetch all chats'
     def chats
-      Chat.all
+      Chat.order(updated_at: :desc)
+    end
+
+    field :chat, Types::ChatType, null: true do
+      argument :id, ID, required: true
+      description 'Find a chat by ID'
+    end
+
+    def chat(id:)
+      Chat.find(id)
     end
 
     field :llm_pricing, [Types::LlmPricingType], null: false,

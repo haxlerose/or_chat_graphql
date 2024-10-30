@@ -17,17 +17,15 @@ export const GET_CHATS = gql`
 
 export const GET_CHAT = gql`
   query GetChat($id: ID!) {
-    node(id: $id) {
-      ... on Chat {
+    chat(id: $id) {
+      id
+      name
+      llmModel
+      messages {
         id
-        name
-        llmModel
-        messages {
-          id
-          content
-          role
-          createdAt
-        }
+        content
+        role
+        createdAt
       }
     }
   }

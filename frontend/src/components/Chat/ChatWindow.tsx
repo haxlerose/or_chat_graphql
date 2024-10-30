@@ -1,3 +1,4 @@
+// src/components/Chat/ChatWindow.tsx
 import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { GET_CHAT } from '@/graphql/queries';
@@ -25,8 +26,6 @@ export const ChatWindow = () => {
     skip: !chatId,
   });
 
-  const chat = data?.node as Chat;
-
   if (!chatId) return null;
 
   if (loading) {
@@ -44,7 +43,17 @@ export const ChatWindow = () => {
   if (error) {
     return (
       <div className="flex-1 h-screen flex flex-col p-4">
-        <div className="text-red-500">Error loading chat</div>
+        <div className="text-red-500">Error loading chat: {error.message}</div>
+      </div>
+    );
+  }
+
+  const chat = data?.chat;
+
+  if (!chat) {
+    return (
+      <div className="flex-1 h-screen flex flex-col p-4">
+        <div className="text-red-500">Chat not found</div>
       </div>
     );
   }
@@ -52,12 +61,12 @@ export const ChatWindow = () => {
   return (
     <div className="flex-1 h-screen flex flex-col">
       <div className="p-4 border-b">
-        <h2 className="text-lg font-bold">{chat?.name}</h2>
-        <div className="text-sm text-gray-500">Using {chat?.llmModel}</div>
+        <h2 className="text-lg font-bold">{chat.name}</h2>
+        <div className="text-sm text-gray-500">Using {chat.llmModel}</div>
       </div>
 
       <div className="flex-1 overflow-auto p-4 space-y-4">
-        {chat?.messages.map((message) => (
+        {chat.messages.map((message) => (
           <Message key={message.id} message={message} />
         ))}
       </div>
