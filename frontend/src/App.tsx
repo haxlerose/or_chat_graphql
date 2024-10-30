@@ -8,6 +8,7 @@ function App() {
       <ChatList />
       <Routes>
         <Route path="/" element={<div className="flex-1 grid place-items-center">Select or start a chat</div>} />
+        <Route path="/new" element={<ChatWindow />} />
         <Route path="/chats/:chatId" element={<ChatWindow />} />
       </Routes>
     </div>

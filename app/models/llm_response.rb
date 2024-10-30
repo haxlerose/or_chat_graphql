@@ -22,7 +22,6 @@ class LlmResponse
 
     response = @http.request(@request)
     parsed = JSON.parse(response.body)
-    Rails.logger.info("????? Open Router API response:\n#{parsed}")
     parsed
   end
 end

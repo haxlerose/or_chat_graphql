@@ -22,3 +22,12 @@ export const CREATE_MESSAGE = gql`
     }
   }
 `;
+
+export const DELETE_CHAT = gql`
+  mutation DeleteChat($id: ID!) {
+    deleteChat(input: { id: $id }) {
+      success
+      errors
+    }
+  }
+`;

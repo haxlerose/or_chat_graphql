@@ -31,7 +31,7 @@ RSpec.describe Message, type: :model do
       end
 
       it 'increments position for subsequent messages' do
-        chat = create(:chat)  # Creates first message with position 1
+        chat = create(:chat)
         second_message = create(:message, :assistant, chat: chat)
         expect(second_message.position).to eq(2)
       end
@@ -44,7 +44,7 @@ RSpec.describe Message, type: :model do
 
         expect {
           first_message.destroy
-        }.to change(Message, :count).by(-2)  # Destroys both messages
+        }.to change(Message, :count).by(-2)
       end
 
       it 'destroys messages with higher positions when a message is updated' do
@@ -53,7 +53,7 @@ RSpec.describe Message, type: :model do
 
         expect {
           first_message.update(content: "Updated content")
-        }.to change(Message, :count).by(-1)  # Destroys the second message
+        }.to change(Message, :count).by(-1)
       end
     end
   end

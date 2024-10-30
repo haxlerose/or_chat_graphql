@@ -22,8 +22,6 @@ module Types
       ids.map { |id| context.schema.object_from_id(id, context) }
     end
 
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
     field :chats, [Types::ChatType], null: false, description: 'Fetch all chats'
     def chats
       Chat.order(updated_at: :desc)

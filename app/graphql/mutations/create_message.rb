@@ -13,7 +13,6 @@ module Mutations
     field :errors, [String], null: false
 
     def resolve(content:, chat_id: nil, llm_model: nil, name: nil)
-      # Validate we have either chat_id or llm_model
       if chat_id.nil? && llm_model.nil?
         return {
           chat: nil,
@@ -24,11 +23,9 @@ module Mutations
       end
 
       Chat.transaction do
-        # Get or create chat
         chat = if chat_id
                  Chat.find(chat_id)
                else
-                 # For new chats, use provided name or generate a default
                  chat_name = name.presence || "Chat #{Time.current.strftime('%Y-%m-%d %H:%M')}"
                  Chat.create!(
                    llm_model: llm_model,
@@ -36,13 +33,11 @@ module Mutations
                  )
                end
 
-        # Create user message - now with role
         user_message = chat.messages.create!(
           content: content,
-          role: :user # This was missing before!
+          role: :user
         )
 
-        # Get response from LLM
         response = LlmResponse.new(chat).complete
         if response['error']
           Rails.logger.error("Open Router API error: #{response['error']}")

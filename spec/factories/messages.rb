@@ -3,12 +3,12 @@
 FactoryBot.define do
   factory :message do
     content { "Hello, AI!" }
-    role { :user }  # Use symbol to match enum definition
+    role { :user }
     chat
 
     trait :assistant do
       content { "Hello! How can I help you today?" }
-      role { :assistant }  # Use symbol for assistant role
+      role { :assistant }
     end
   end
 end

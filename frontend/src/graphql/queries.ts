@@ -30,3 +30,12 @@ export const GET_CHAT = gql`
     }
   }
 `;
+
+export const GET_LLM_PRICING = gql`
+  query GetLlmPricing {
+    llmPricing {
+      name
+      cost
+    }
+  }
+`;

@@ -11,10 +11,8 @@ FactoryBot.define do
 
     trait :with_conversation do
       after(:create) do |chat, evaluator|
-        # The first message is already created by the after(:build) callback
-        # Now create the assistant message
         create(:message, :assistant, chat: chat)
-        chat.reload  # Make sure we have the latest messages
+        chat.reload
       end
     end
   end
